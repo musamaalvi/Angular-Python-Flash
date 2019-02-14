@@ -25,18 +25,27 @@ export class FavoriteComponentComponent implements OnInit {
   }
 
   sayHi(text) {
+
+    //GET Request
     // this.httpClient.get('http://127.0.0.1:5002/employees').subscribe(data => {
     //   this.serverData = data as JSON;
-      
-    //   console.log(this.serverData);
     // })
-    //////////////for posting
-    this.httpClient.post('http://127.0.0.1:5002/processText', JSON.stringify(text)).subscribe(data => {
+
+
+    var obj =  {
+      'code':text,
+      'id':10001
+    };
+    //POST Request
+    this.httpClient.post('http://127.0.0.1:5002/processText', obj).subscribe(data => {
       this.serverData = data as JSON;
       
       console.log(this.serverData["some_message"]);
     })
   }
+
+
+
   ngOnInit() {
   }
 

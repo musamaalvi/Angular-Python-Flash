@@ -28,7 +28,8 @@ class Employees_Name(Resource):
 @app.route('/processText', methods=['POST'])
 def analyzeText():
     if request.method == "POST":
-         temp = request.data.decode("utf-8")
+         content = request.get_json()
+         temp = content['code']
          t = temp.split("\\n")
          f = open("demofile.txt", "w") 
          for i in  t:
@@ -36,10 +37,19 @@ def analyzeText():
          f.close()
          f = open("demofile.txt", "r")
          code = f.read()
-         code = code[1:-2]
+         
          with stdoutIO() as s:
-              exec(code)    
-         return jsonify({'some_message':s.getvalue()})
+              exec(code)
+
+         answer = open(str(content['id'])+".txt","r")
+         answer = answer.read()
+         print(answer)
+         print(s.getvalue())
+         if(answer == s.getvalue()):
+              returnValue = True
+         else:
+              returnValue = False    
+         return jsonify({'some_message':returnValue})
 
 
 @contextlib.contextmanager
